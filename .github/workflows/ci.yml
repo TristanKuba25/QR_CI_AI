@@ -70,6 +70,12 @@ jobs:
 
           cmake --build build/app --parallel
 
+      - name: Debug build output
+        run: |
+          echo "Contenu de build/app :"
+          find build/app -maxdepth 3 -type f -printf "%P\n"
+
+
       - name: Upload artefact
         uses: actions/upload-artifact@v4
         with:
