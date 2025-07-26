@@ -1,10 +1,11 @@
 cmake_minimum_required(VERSION 3.18)
 project(identique_ratio_demo LANGUAGES CXX)
 
+target_compile_definitions(identique_ratio_demo PRIVATE)
 set(CMAKE_INSTALL_PREFIX "/usr" CACHE PATH "Install prefix" FORCE)
 
 find_package(OpenCV REQUIRED COMPONENTS core imgproc videoio highgui)
-find_package(ZXing  REQUIRED CONFIG)
+find_package(ZXing REQUIRED CONFIG)
 find_package(tensorflowlite REQUIRED CONFIG)
 
 find_package(Threads REQUIRED)          # pthread
@@ -32,6 +33,7 @@ set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.29), libstdc++6 (>= 9)")
 
 install(TARGETS identique_ratio RUNTIME DESTINATION bin)
 
-install(FILES ${CMAKE_SOURCE_DIR}/models/model.tflite DESTINATION share/identique-ratio/models)
+install(FILES ${CMAKE_SOURCE_DIR}/models/model.tflite
+        DESTINATION bin/models)
 
 include(CPack)
