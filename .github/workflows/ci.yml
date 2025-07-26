@@ -1,0 +1,77 @@
+name: identique_ratio-ci
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+env:
+  CONAN_USER_HOME: ~/.conan2
+
+jobs:
+  build_libs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install system packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential ninja-build python3-pip \
+            libgtk-3-dev
+          pip3 install --upgrade "conan~=2.2" cmake ninja
+          conan remote add --force conancenter https://center2.conan.io
+
+      - uses: actions/cache@v4
+        with:
+          path: ~/.conan2
+          key: ${{ runner.os }}-conan-${{ hashFiles('conanfile.*', 'profiles/**') }}
+
+      - name: Conan install libs
+        run: |
+          conan profile detect --force
+          conan install . -of build \
+                -pr:b profiles/default \
+                -pr:h profiles/default \
+                -s build_type=Release \
+                -c tools.system.package_manager:mode=install \
+                -c tools.system.package_manager:sudo=True \
+                --build=missing
+
+  build_app:
+    needs: build_libs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/cache@v4
+        with:
+          path: ~/.conan2
+          key: ${{ runner.os }}-conan-${{ hashFiles('conanfile.*', 'profiles/**') }}
+
+      - name: Install minimal build tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ninja-build python3-pip
+          pip3 install --upgrade "conan~=2.2" cmake ninja
+
+      - name: Build application
+        run: |
+          conan install . -of build \
+                -pr:b profiles/default \
+                -pr:h profiles/default \
+                -s build_type=Release \
+                --build=never
+
+          cmake -S . -B build/app -G Ninja \
+                -DCMAKE_TOOLCHAIN_FILE=build/conan_toolchain.cmake \
+                -DCMAKE_BUILD_TYPE=Release
+
+          cmake --build build/app --parallel
+
+      - name: Upload artefact
+        uses: actions/upload-artifact@v4
+        with:
+          name: identique_ratio-${{ github.sha }}
+          path: build/app/bin/identique_ratio
