@@ -1,9 +1,0 @@
-/home/builder/QR_CI_AI/build/app/CMakeFiles/identique_ratio.dir
-/home/builder/QR_CI_AI/build/app/CMakeFiles/package.dir
-/home/builder/QR_CI_AI/build/app/CMakeFiles/package_source.dir
-/home/builder/QR_CI_AI/build/app/CMakeFiles/edit_cache.dir
-/home/builder/QR_CI_AI/build/app/CMakeFiles/rebuild_cache.dir
-/home/builder/QR_CI_AI/build/app/CMakeFiles/list_install_components.dir
-/home/builder/QR_CI_AI/build/app/CMakeFiles/install.dir
-/home/builder/QR_CI_AI/build/app/CMakeFiles/install/local.dir
-/home/builder/QR_CI_AI/build/app/CMakeFiles/install/strip.dir
