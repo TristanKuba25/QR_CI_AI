@@ -70,16 +70,20 @@ jobs:
 
           cmake --build build/app --parallel
 
-      - name: Debug build output
+
+      - name: Install Debian packaging tools
         run: |
-          echo "Contenu de build/app :"
-          find build/app -maxdepth 3 -type f -printf "%P\n"
+          sudo apt-get update
+          sudo apt-get install -y fakeroot dpkg-dev
 
+      - name: Generate Debian package
+        working-directory: build/app
+        run: |
+          cpack -G DEB -C Release
 
-      - name: Upload artefact
+      - name: Upload Debian package
         uses: actions/upload-artifact@v4
         with:
-          name: identique_ratio-${{ github.sha }}
-          path: |
-           build/app/identique_ratio
-           models/model.tflite
+          name: identique_ratio-deb-${{ github.sha }}
+          path: build/app/*.deb
+

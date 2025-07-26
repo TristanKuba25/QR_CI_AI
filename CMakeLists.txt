@@ -21,4 +21,15 @@ target_link_libraries(identique_ratio PRIVATE
     ${DL_LIB}
 )
 
-install(TARGETS identique_ratio RUNTIME DESTINATION bin)
+include(InstallRequiredSystemLibraries)
+set(CPACK_GENERATOR DEB)
+set(CPACK_PACKAGE_NAME    "identique-ratio")
+set(CPACK_PACKAGE_VERSION "0.1.0")
+set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Tsol")
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.29), libstdc++6 (>= 9)")
+
+install(TARGETS identique_ratio RUNTIME DESTINATION usr/bin)
+install(FILES ${CMAKE_SOURCE_DIR}/models/model.tflite
+        DESTINATION usr/share/identique-ratio/models)
+
+include(CPack)

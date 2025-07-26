@@ -1,0 +1,1 @@
+. "/home/builder/QR_CI_AI/build/build/Release/generators/conanrunenv-release-x86_64.sh"

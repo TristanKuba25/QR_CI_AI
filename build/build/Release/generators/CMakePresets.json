@@ -1,0 +1,42 @@
+{
+    "version": 3,
+    "vendor": {
+        "conan": {}
+    },
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 15,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "conan-release",
+            "displayName": "'conan-release' config",
+            "description": "'conan-release' configure using 'Unix Makefiles' generator",
+            "generator": "Unix Makefiles",
+            "cacheVariables": {
+                "CMAKE_POLICY_DEFAULT_CMP0091": "NEW",
+                "CMAKE_BUILD_TYPE": "Release"
+            },
+            "environment": {
+                "PATH": "/home/builder/.conan2/p/ninjae5b5bd2e11aaa/p/bin:/home/builder/.conan2/p/cmakee640aa79d28bd/p/bin:$penv{PATH}"
+            },
+            "cmakeExecutable": "/home/builder/.conan2/p/cmakee640aa79d28bd/p/bin/cmake",
+            "toolchainFile": "generators/conan_toolchain.cmake",
+            "binaryDir": "/home/builder/QR_CI_AI/build/build/Release"
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "conan-release",
+            "configurePreset": "conan-release",
+            "jobs": 4
+        }
+    ],
+    "testPresets": [
+        {
+            "name": "conan-release",
+            "configurePreset": "conan-release"
+        }
+    ]
+}
