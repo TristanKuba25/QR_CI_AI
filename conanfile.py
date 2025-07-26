@@ -7,39 +7,33 @@ class IdentiqueRatioDemo(ConanFile):
 
     settings = "os", "compiler", "build_type", "arch"
 
-    # ---------------------------------------------------------------------
-    # Binaries
-    # ---------------------------------------------------------------------
+
     requires = (
         "opencv/4.9.0",
         "zxing-cpp/2.3.0",
         "tensorflow-lite/2.15.0",
     )
 
-    # Build tools (Conan les injecte via conanrun.sh)
+    
     tool_requires = (
         "cmake/3.29.3",
         "ninja/1.11.1",
     )
 
-    # ---------------------------------------------------------------------
-    # Générateurs
-    # ---------------------------------------------------------------------
+
     generators = ("CMakeDeps", "CMakeToolchain")
 
-    # ---------------------------------------------------------------------
-    # Options : on coupe tout ce qui n’est pas strictement nécessaire
-    # ---------------------------------------------------------------------
+  
     default_options = {
         # --- global ---
-        "*:shared": False,                     # tout en statique ⇒ exécutable unique
+        "*:shared": False,                     
 
         # --- OpenCV ---
         "opencv/*:contrib": False,
         "opencv/*:nonfree": False,
-        "opencv/*:world":   False,             # génère les libs séparées
-        "opencv/*:with_gtk": True,             # nécessaire pour imshow() (HighGUI)
-        "opencv/*:with_ffmpeg": False,         # caméra V4L2 suffit
+        "opencv/*:world":   False,             
+        "opencv/*:with_gtk": True,             
+        "opencv/*:with_ffmpeg": False,         
         "opencv/*:with_gstreamer": False,
         "opencv/*:with_jpeg": False,
         "opencv/*:with_png": False,
@@ -56,16 +50,16 @@ class IdentiqueRatioDemo(ConanFile):
         "zxing-cpp/*:fuzzers":         False,
 
         # --- TensorFlow Lite ---
-        "tensorflow-lite/*:xnnpack": True,     # on garde le delegate CPU rapide
+        "tensorflow-lite/*:xnnpack": True,     
         "tensorflow-lite/*:ruy":      False,
         "tensorflow-lite/*:eigen":    False,
         "tensorflow-lite/*:fp16":     False,
     }
 
-    # ---------------------------------------------------------------------
+    
     def layout(self):
         cmake_layout(self)
 
-    # Bibliothèques système ; CMakeDeps les exportera sous forme de targets
+   
     def package_info(self):
         self.cpp_info.system_libs = ["dl", "pthread"]
