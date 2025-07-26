@@ -80,4 +80,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: identique_ratio-${{ github.sha }}
-          path: build/app/identique_ratio
+          path: |
+           build/app/identique_ratio
+           models/model.tflite
